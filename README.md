@@ -9,7 +9,7 @@
 ## 特性
 
 - **三阶段攻击状态机**：前摇 → 攻击中 → 后摇 → 结束，内置于 `BaseCharacter`，由计时器驱动，支持多个命中检测点（CheckPoint）。
-- **数据驱动技能**：`CombatAbility`（Resource）定义攻击的总时长、前摇时间、攻击中时间、命中检测点；改数据即改手感，无需改代码。
+- **数据驱动技能**：`CombatAbility`（Resource）定义攻击的总时长、前摇时间、攻击中时间、命中检测点；改数据即改手感。
 - **组件化设计（ECS 思路）**：
   - `AttackComponent`（Area3D）：攻击判定范围，负责命中检测（`check_hit`）；
   - `DynamicBoxCollision`：AttackComponent 下的动态碰撞盒，可动态调整尺寸；
