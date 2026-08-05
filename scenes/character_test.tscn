@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://d3s26vjovut5s"]
+
+[ext_resource type="PackedScene" uid="uid://cpcd7xldxyvms" path="res://addons/charactercontroller2.5D/controller/player_controller.tscn" id="1_ewyxd"]
+[ext_resource type="PackedScene" uid="uid://dfsmglbg0jihv" path="res://addons/wuxiacombatsystem/character/character.tscn" id="2_tberd"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dc0pm"]
+size = Vector2(8.21, 3.755)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ebg28"]
+data = PackedVector3Array(4.105, 0, 1.8774999, -4.105, 0, 1.8774999, 4.105, 0, -1.8774999, -4.105, 0, 1.8774999, -4.105, 0, -1.8774999, 4.105, 0, -1.8774999)
+
+[node name="SpineTest" type="Node3D" unique_id=546623839]
+
+[node name="Camera3D" parent="." unique_id=1742101296 node_paths=PackedStringArray("owning_character") instance=ExtResource("1_ewyxd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.059814185, 1.1356874)
+fov = 110.0
+owning_character = NodePath("../CharacterBody3D")
+up = &"up"
+down = &"down"
+left = &"left"
+right = &"right"
+jump = &"jump"
+
+[node name="CharacterBody3D" parent="." unique_id=440418979 instance=ExtResource("2_tberd")]
+gravity_rate = 0.2
+max_speed = 2.0
+acceleration = 15.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2121791402]
+transform = Transform3D(1, 0, 0, 0, 0.8171449, 0.57643235, 0, -0.57643235, 0.8171449, -0.93380547, 5.4626627, 3.4619918)
+light_energy = 1.784
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1332244093]
+transform = Transform3D(1, 0, 0, 0, 0.99965644, 0.026211552, 0, -0.026211552, 0.99965644, 0, -0.14077055, 0)
+mesh = SubResource("PlaneMesh_dc0pm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1855751017]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=723559522]
+shape = SubResource("ConcavePolygonShape3D_ebg28")

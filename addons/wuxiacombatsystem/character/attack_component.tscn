@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b36y52a82kt8q"]
+
+[ext_resource type="Script" uid="uid://bwmiafj8xswx0" path="res://addons/wuxiacombatsystem/scripts/attack_component.gd" id="1_4tvin"]
+[ext_resource type="Script" uid="uid://jmyrgj6y76ju" path="res://addons/wuxiacombatsystem/collisions/dynamic_collision.gd" id="2_wkrug"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dqwm1"]
+size = Vector3(0.32574463, 0.34716797, 0.7297363)
+
+[node name="AttackComponent" type="Area3D" unique_id=1002204844]
+script = ExtResource("1_4tvin")
+init_scale = Vector3(0.32, 0.34, 0.73)
+
+[node name="DynamicBoxCollision" type="CollisionShape3D" parent="." unique_id=639829589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0022888184, -0.0075683594, 0.021362305)
+shape = SubResource("BoxShape3D_dqwm1")
+script = ExtResource("2_wkrug")
+metadata/_custom_type_script = "uid://jmyrgj6y76ju"

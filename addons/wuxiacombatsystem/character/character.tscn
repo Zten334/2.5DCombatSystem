@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://dfsmglbg0jihv"]
+
+[ext_resource type="Script" uid="uid://bw85u0kq4ls75" path="res://addons/wuxiacombatsystem/scripts/base_character.gd" id="1_xdgib"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://dm6is2jespcqd" path="res://addons/wuxiacombatsystem/animation/animation_node_sm.tres" id="3_8u4o5"]
+[ext_resource type="Script" uid="uid://buem4ufrrd7ol" path="res://addons/wuxiacombatsystem/scripts/character_ani.gd" id="3_xua1b"]
+[ext_resource type="AnimationLibrary" uid="uid://bruoof7j80e7" path="res://addons/wuxiacombatsystem/animation/charactercombatsystem.res" id="4_2vl15"]
+[ext_resource type="PackedScene" uid="uid://bwg5xwjcyhdht" path="res://addons/wuxiacombatsystem/abilities/combat_resource_component.tscn" id="5_7w2pl"]
+[ext_resource type="Script" uid="uid://cm8gb2t4ccw5v" path="res://addons/wuxiacombatsystem/abilities/source/ability.gd" id="6_3667e"]
+[ext_resource type="Resource" uid="uid://bjptq7p3015f0" path="res://addons/wuxiacombatsystem/abilities/resources/light_attack1.tres" id="7_qmc33"]
+[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wuxiacombatsystem/character/attack_component.tscn" id="8_rf03t"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dc0pm"]
+radius = 0.10546875
+height = 0.30822754
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rf03t"]
+load_path = "res://.godot/imported/Warrior_Sheet-Effect.png-7c9b1849afef29f1e741f26c91f444dc.s3tc.ctex"
+
+[sub_resource type="Animation" id="Animation_qmc33"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rf03t"]
+_data = {
+&"RESET": SubResource("Animation_qmc33")
+}
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=440418979]
+script = ExtResource("1_xdgib")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=721659085]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18760407, 0)
+shape = SubResource("CapsuleShape3D_dc0pm")
+
+[node name="CharacterSprite" type="Sprite3D" parent="." unique_id=1403732912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+offset = Vector2(5, 0)
+texture_filter = 0
+texture = SubResource("CompressedTexture2D_rf03t")
+hframes = 6
+vframes = 17
+region_enabled = true
+region_rect = Rect2(0, 0, 412, 748)
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=918220104]
+tree_root = ExtResource("3_8u4o5")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Ability/TimeScale/scale = 1.5
+parameters/Ability/Transition/current_state = "Light_Attack"
+parameters/Ability/Transition/transition_request = "Light_Attack"
+parameters/Ability/Transition/current_index = 0
+script = ExtResource("3_xua1b")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1261899896]
+libraries/ = SubResource("AnimationLibrary_rf03t")
+libraries/charactercombatsystem = ExtResource("4_2vl15")
+
+[node name="CombatResourceComponent" parent="." unique_id=1692130395 instance=ExtResource("5_7w2pl")]
+current_abilities = Array[ExtResource("6_3667e")]([ExtResource("7_qmc33")])
+
+[node name="AttackComponent" parent="." unique_id=1002204844 instance=ExtResource("8_rf03t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44575503, 0.14108983, 0)
+init_scale = Vector3(0.4, 0.34, 0.73)

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatAbility" format=3 uid="uid://bjptq7p3015f0"]
+
+[ext_resource type="Script" uid="uid://cm8gb2t4ccw5v" path="res://addons/wuxiacombatsystem/abilities/source/ability.gd" id="1_efmmd"]
+
+[resource]
+script = ExtResource("1_efmmd")
+total_duration = 0.8
+front_time = 0.1
+running_time = 0.6
+hit_check_points = Array[float]([0.4])
+metadata/_custom_type_script = "uid://cm8gb2t4ccw5v"

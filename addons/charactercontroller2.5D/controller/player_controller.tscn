@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cpcd7xldxyvms"]
+
+[ext_resource type="Script" uid="uid://bbg8tstolrcks" path="res://addons/charactercontroller2.5D/scripts/player_controller.gd" id="1_2d2po"]
+
+[node name="Camera3D" type="Camera3D" unique_id=1742101296]
+script = ExtResource("1_2d2po")

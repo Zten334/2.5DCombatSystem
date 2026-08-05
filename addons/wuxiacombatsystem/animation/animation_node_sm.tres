@@ -1,0 +1,56 @@
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://dm6is2jespcqd"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3667e"]
+animation = &"charactercombatsystem/light_attack"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_qmc33"]
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_7w2pl"]
+input_0/name = "Light_Attack"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rf03t"]
+graph_offset = Vector2(-605.58923, 8.956955)
+nodes/output/position = Vector2(310, 150)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_qmc33")
+nodes/TimeScale/position = Vector2(-110, 10)
+nodes/Light_Attack/node = SubResource("AnimationNodeAnimation_3667e")
+nodes/Light_Attack/position = Vector2(-470, 0)
+nodes/Transition/node = SubResource("AnimationNodeTransition_7w2pl")
+nodes/Transition/position = Vector2(100, 100)
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7w2pl"]
+animation = &"charactercombatsystem/Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vl15"]
+animation = &"charactercombatsystem/Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3667e"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7w2pl"]
+advance_mode = 2
+advance_expression = "has_velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qmc33"]
+advance_mode = 2
+advance_expression = "!has_velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rf03t"]
+switch_mode = 2
+advance_mode = 2
+
+[resource]
+states/Ability/node = SubResource("AnimationNodeBlendTree_rf03t")
+states/Ability/position = Vector2(339.83868, -64.122116)
+states/End/position = Vector2(990, 100.055664)
+states/Start/position = Vector2(85, 101.322266)
+states/charactercombatsystem_Idle/node = SubResource("AnimationNodeAnimation_7w2pl")
+states/charactercombatsystem_Idle/position = Vector2(339.21875, 44.789063)
+states/charactercombatsystem_Run/node = SubResource("AnimationNodeAnimation_2vl15")
+states/charactercombatsystem_Run/position = Vector2(338.3125, 149)
+transitions = ["Start", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "charactercombatsystem_Idle", "charactercombatsystem_Run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "charactercombatsystem_Run", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_rf03t")]
+graph_offset = Vector2(-117.54138, -109.622116)
