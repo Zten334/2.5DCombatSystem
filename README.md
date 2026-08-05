@@ -12,7 +12,7 @@
 - **数据驱动技能**：`CombatAbility`（Resource）定义攻击的总时长、前摇时间、攻击中时间、命中检测点；改数据即改手感，无需改代码。
 - **组件化设计（ECS 思路）**：
   - `AttackComponent`（Area3D）：攻击判定范围，负责命中检测（`check_hit`）；
-  - `DynamicBoxCollision`：可动态调整尺寸的碰撞盒；
+  - `DynamicBoxCollision`：AttackComponent 下的动态碰撞盒，可动态调整尺寸；
   - `CombatResourceComponent`：技能资源库，持有技能数组；
   - 组件之间互不感知，决策统一收敛在 `BaseCharacter`，职责清晰、耦合低。
 - **动画系统**：`AnimationTree` 状态机 + `Ability` 过渡节点，类似 UE 的动画蓝图 / 蒙太奇；`play_montage` 通过 `transition_request` 切换动画。
@@ -37,10 +37,10 @@
 
 ```
 BaseCharacter（决策 / 时序）
-  ├── AttackComponent        （Area3D 命中判定）
-  ├── DynamicBoxCollision    （动态碰撞盒）
-  ├── CombatResourceComponent（技能资源库）
-  └── Animator               （AnimationTree 动画驱动）
+  ├── AttackComponent          （Area3D 命中判定）
+  │   └── DynamicBoxCollision  （动态碰撞盒，属于攻击组件）
+  ├── CombatResourceComponent  （技能资源库）
+  └── Animator                 （AnimationTree 动画驱动）
 ```
 
 设计要点：角色拥有攻击时序（状态机 + 计时器），组件只提供能力（命中检测、动画播放），数据存放在 Resource 中——组件向上提供数据和函数，决策由角色统一管理，避免组件之间相互耦合。
