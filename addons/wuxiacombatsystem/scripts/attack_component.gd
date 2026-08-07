@@ -79,7 +79,7 @@ func excute_attack(index : int)-> AbilityInfo:
 		2:
 			return ability2_info[ability2_index]
 		3:
-			return ability2_info[ability2_index]
+			return ability2_info[ability3_index]
 		_:
 			return null
 
