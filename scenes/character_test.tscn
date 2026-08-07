@@ -23,6 +23,7 @@ jump = &"jump"
 
 [node name="CharacterBody3D" parent="." unique_id=440418979 instance=ExtResource("2_tberd")]
 gravity_rate = 0.2
+friction_strength = 5.0
 max_speed = 2.0
 acceleration = 15.0
 

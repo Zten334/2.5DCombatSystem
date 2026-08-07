@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export_category("PhyscisParaData")
 #越大下落得越快
 @export var gravity_rate : float
+@export var friction_strength : float
 @export_category("CharacterNormalData")
 @export var max_speed : float
 @export var acceleration : float
@@ -17,6 +18,7 @@ var stay_air : bool = false
 func _process(delta: float) -> void:
 	#physics
 	_check_gravity(delta)
+	_check_friction(delta)
 	#animation
 	_update_sprite_forwad()
 	#combat
@@ -73,16 +75,25 @@ func jump() -> void:
 	velocity.y = jump_velocity
 
 ##2D运动
+#应用摩擦力
+func _check_friction(delta:float) -> void:
+	velocity.x = move_toward(velocity.x,0,delta * friction_strength)
+	velocity.z = move_toward(velocity.z,0,delta * friction_strength)
+
+
 
 #为当前角色施加加速度
 #forward:前进的方向，0到1之间，Vector3
 #delta：速度增量
 func accelerate(forward,delta) -> void:
-	var new_vel = forward.normalized() * max_speed	
-	velocity.x = move_toward(velocity.x,new_vel.x,delta * acceleration)
-	velocity.z = move_toward(velocity.z,new_vel.y,delta * acceleration)
-
-
+	var new_vel = forward.normalized() * max_speed
+	var new_forward = Vector3(new_vel.x - velocity.x,0,new_vel.y - velocity.z)
+	new_forward = new_forward.normalized()
+	#velocity.x = move_toward(velocity.x,new_vel.x,delta * acceleration)
+	#velocity.z = move_toward(velocity.z,new_vel.y,delta * acceleration)
+	velocity += new_forward * delta * acceleration
+	
+	
 #直接设置当前角色的速度
 #forward:方向
 #rate:与最大速率的比例

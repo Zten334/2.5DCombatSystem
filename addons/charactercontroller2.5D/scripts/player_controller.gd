@@ -25,7 +25,7 @@ func _handling_moving_input(delta:float) -> void:
 		return
 		
 	var input = Input.get_vector(left,right,up,down)
-	if owning_character.has_method("accelerate"):
+	if owning_character.has_method("accelerate") and input != Vector2.ZERO:
 		owning_character.accelerate(input,delta)
 	
 	if Input.is_action_just_pressed("attack") and owning_character.has_method("light_attack"):
