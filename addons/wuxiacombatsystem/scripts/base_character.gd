@@ -153,13 +153,14 @@ func _attack_progress(delta:float) -> void:
 #轻攻击（暂定），需要去招式资源组件中读取，然后根据index进行选择
 func light_attack() -> void:
 	#首先我得知道有哪些招式，然后再选择使用哪个
-	if not combat_resource_component:
-		print('You Have No Combat Rousource Yet!')
+	if not attack_component:
+		print('You Have No AttackComponent Yet!')
 		return
 	#如果当前正在攻击阶段，则跳过
 	if current_phase == AttackPhase.RUNNING:
 		return
-	_copy_ability_data(1)
+	
+	_copy_ability_data(0)
 	
 	#启动timer
 	attacking_timer = total_duration
@@ -176,7 +177,9 @@ func hurt() -> void:
 #region TOOLFUNC
 #读取ability中的数据
 func _copy_ability_data(index : int) -> void:
-	var ability : CombatAbility = combat_resource_component.get_ability(index)
+	#从攻击组件中获取，更加合理
+	var ability = attack_component.excute_attack(index)
+	#var ability : CombatAbility = combat_resource_component.get_ability(index)
 	
 	total_duration = ability.total_duration
 	front_time = ability.total_duration - ability.front_time
@@ -184,8 +187,12 @@ func _copy_ability_data(index : int) -> void:
 	
 	hit_check_points = ability.hit_check_points
 	
-func _excute_hit_check() -> void:
+	print(total_duration)
+	print(ability.front_time)
+	print(hit_check_points)
 	
+	
+func _excute_hit_check() -> void:
 	if not attack_component:
 		return
 	attack_component.check_hit()
