@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-#region BASIC_DATA
+#region BASIC_DATA 基本信息，如物理参数
 @export_category("PhyscisParaData")
 #越大下落得越快
 @export var gravity_rate : float
@@ -14,55 +14,7 @@ extends CharacterBody3D
 var stay_air : bool = false
 #endregion
 
-#region CLASK_FUNC
-func _process(delta: float) -> void:
-	#physics
-	_check_gravity(delta)
-	_check_friction(delta)
-	#animation
-	_update_sprite_forwad()
-	#combat
-	_attack_progress(delta)
-	
-
-func _physics_process(delta: float) -> void:
-	#animation
-	_update_animator_data()
-	#locomotion
-	move_and_slide()
-#endregion
-
-#region RESOURCE
-
-
-#endregion
-
-#region ANIMATION
-@onready var animation_tree = $AnimationTree
-@onready var sprite3d = $CharacterSprite
-#调整Sprite的朝向
-func _update_sprite_forwad() -> void:
-	if !sprite3d:
-		return
-	#根据x方向的速率调整sprite的左右
-	if velocity.x > 0 :
-		sprite3d.scale.x = 1
-	elif velocity.x < 0 :
-		sprite3d.scale.x = -1
-		
-#更新AnimationTree中的运动相关数据
-func _update_animator_data() -> void:
-	if !animation_tree:
-		return
-	animation_tree.update_locomotion_data(velocity)
-
-func _play_montage(name) -> void:
-	if !animation_tree:
-		return
-	animation_tree.play_montage(name)
-#endregion
-
-#region LOCOMOTIONS
+#region LOCOMOTIONS 人物运动
 #应用重力
 func _check_gravity(delta: float) -> void:
 	if stay_air:
@@ -102,11 +54,29 @@ func assign_velocity(forward,rate = 1) -> void:
 	velocity.z = forward.y * rate * max_speed
 #endregion
 
-#region COMBAT
+#region STATS 数值系统
+var stats_component
+
+var max_hp
+var hp
+
+var base_attack   #基础攻击
+var attack		#当前实际攻击
+var base_defense #基础防御
+var defense		#当前防御
+var base_speed   #基础速度
+var speed		#当前速度
+var base_crit_rate  #基础暴击率
+var crit_rate    #当前暴击率
+
+
+#endregion
+
+#region COMBAT 战斗系统
 @onready var attack_component = $AttackComponent
 @onready var combat_resource_component = $CombatResourceComponent
 
-#region COMBATSTATEMACHINE
+#region /ATTACK
 enum AttackPhase{ #前摇、攻击中、后摇、结束
 	FRONT,
 	RUNNING,
@@ -117,7 +87,7 @@ enum AttackPhase{ #前摇、攻击中、后摇、结束
 
 var current_phase : AttackPhase = AttackPhase.NONE #当前的攻击阶段
 
-var total_duration : float #攻击的持续时间
+var attack_duration : float #攻击的持续时间
 
 var front_time : float #前摇、运行的结束时间
 var running_time : float
@@ -127,8 +97,6 @@ var current_point : int #当前要检测的时间点的索引
 
 
 var attacking_timer : float #攻击计时器，用以分隔不同的攻击阶段
-
-#endregion
 
 var attacking_speed   #测试，攻击速度修正
 
@@ -157,7 +125,7 @@ func _attack_progress(delta:float) -> void:
 	#这里，因为设定的时候，时间轴是正向的，而倒计时是反向的，所以需要从后
 	#往前进行判断
 		#current_point不能为0，否则会越界
-		if current_point >= 0 and attacking_timer <= (total_duration - hit_check_points[current_point]):
+		if current_point >= 0 and attacking_timer <= (attack_duration - hit_check_points[current_point]):
 			current_point -= 1 #先移动当前current_point
 			_excute_hit_check()  #进行一次碰撞判断 
 
@@ -174,31 +142,49 @@ func light_attack() -> void:
 	_copy_ability_data(0)
 	
 	#启动timer
-	attacking_timer = total_duration
+	attacking_timer = attack_duration
 	current_point = len(hit_check_points) - 1
 	#将当前攻击阶段设为FONT
 	#current_phase = AttackPhase.FRONT
 	#播放动画
 	_play_montage(&"Light_Attack")
 
+#endregion
+
+#region /HURT
+
+var hurt_timer : float #受击计时器
+var hurt_duration : float #受击持续时间
+
+func _hurt_progress(delta:float) -> void:
+	#每帧倒计时
+	hurt_timer -= delta
+	#如果计时器小于0，说明当前阶段已经是结束阶段了
+	if hurt_timer <= 0:
+		hurt_timer = 0
+	else:
+		pass
 
 func hurt() -> void:
+	
 	print(name," is hurt!")
 
-#region TOOLFUNC
+#endregion
+
+#region /TOOLFUNC
 #读取ability中的数据
 func _copy_ability_data(index : int) -> void:
 	#从攻击组件中获取，更加合理
 	var ability = attack_component.excute_attack(index)
 	#var ability : CombatAbility = combat_resource_component.get_ability(index)
 	
-	total_duration = ability.total_duration
+	attack_duration = ability.total_duration
 	front_time = ability.total_duration - ability.front_time
 	running_time = ability.total_duration - ability.running_time
 	
 	hit_check_points = ability.hit_check_points
 	
-	print(total_duration)
+	print(attack_duration)
 	print(ability.front_time)
 	print(hit_check_points)
 	
@@ -211,20 +197,50 @@ func _excute_hit_check() -> void:
 #endregion
 #endregion
 
-#region STATS
-var stats_component
-
-var max_hp
-var hp
-
-var base_attack   #基础攻击
-var attack		#当前实际攻击
-var base_defense #基础防御
-var defense		#当前防御
-var base_speed   #基础速度
-var speed		#当前速度
-var base_crit_rate  #基础暴击率
-var crit_rate    #当前暴击率
+#region RESOURCE 资源
 
 
+#endregion
+
+#region ANIMATION 动画控制
+@onready var animation_tree = $AnimationTree
+@onready var sprite3d = $CharacterSprite
+#调整Sprite的朝向
+func _update_sprite_forwad() -> void:
+	if !sprite3d:
+		return
+	#根据x方向的速率调整sprite的左右
+	if velocity.x > 0 :
+		sprite3d.scale.x = 1
+	elif velocity.x < 0 :
+		sprite3d.scale.x = -1
+		
+#更新AnimationTree中的运动相关数据
+func _update_animator_data() -> void:
+	if !animation_tree:
+		return
+	animation_tree.update_locomotion_data(velocity)
+
+func _play_montage(name) -> void:
+	if !animation_tree:
+		return
+	animation_tree.play_montage(name)
+#endregion
+
+#region CLASK_FUNC 自带的钩子函数
+func _process(delta: float) -> void:
+	#physics 检查重力和摩擦力
+	_check_gravity(delta)
+	_check_friction(delta)
+	#animation
+	_update_sprite_forwad()
+	#combat
+	_attack_progress(delta)
+	
+
+func _physics_process(delta: float) -> void:
+	#animation
+	_update_animator_data()
+	#locomotion
+	move_and_slide()
 #endregion

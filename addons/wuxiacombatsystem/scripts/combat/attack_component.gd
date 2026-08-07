@@ -10,13 +10,13 @@ class AbilityInfo:
 	
 	var hit_check_points : Array[float] #攻击检测点
 
-#region HITCHECK_BOX
+#region HITCHECK_BOX 攻击检测盒
 @export var init_scale : Vector3  #测试用的初始碰撞盒scale
 
 @onready var collision : DynamicBoxCollision = $DynamicBoxCollision
 #endregion
 
-#region ATTACKINFO
+#region ATTACK_INFO 攻击（或者说招式）信息
 #这里为了保留未来不同ability的信息区间
 #我把攻击和ability给拆开了，而不是放在数组里
 #也有一部分原因是只有四个，其实并不算多
@@ -31,16 +31,8 @@ var ability2_index : int      #能力二的派生顺序
 var ability3_index : int      #能力三的派生顺序
 
 #endregion
-func _ready() -> void:
-	#初始化能力信息
-	init_ability_info(1)
-	
-	init_collision(init_scale) 
 
-func _process(delta: float) -> void:
-	pass
-
-#region INITRESOURCE
+#region INIT_RESOURCE 初始化资源
 #只在进入场景时执行一次，初始化攻击内容
 func init_ability_info(resource) -> void:
 	#初始化一个ability_info
@@ -62,8 +54,7 @@ func init_collision(target_scale : Vector3) -> void:
 
 #endregion
 
-
-#region EXCUTE_ATTACKING
+#region EXCUTE_ATTACKING 执行攻击效果
 
 #选取攻击的类型,返回相应的攻击信息，让character处理
 #1.普通攻击
@@ -92,3 +83,12 @@ func check_hit() -> void:
 
 
 #endregion
+
+
+func _ready() -> void:
+	#初始化能力信息
+	init_ability_info(1)	
+	init_collision(init_scale) 
+
+func _process(delta: float) -> void:
+	pass

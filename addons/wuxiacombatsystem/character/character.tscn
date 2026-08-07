@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bwg5xwjcyhdht" path="res://addons/wuxiacombatsystem/abilities/combat_resource_component.tscn" id="5_7w2pl"]
 [ext_resource type="Script" uid="uid://cm8gb2t4ccw5v" path="res://addons/wuxiacombatsystem/abilities/source/ability.gd" id="6_3667e"]
 [ext_resource type="Resource" uid="uid://bjptq7p3015f0" path="res://addons/wuxiacombatsystem/abilities/resources/light_attack1.tres" id="7_qmc33"]
-[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wuxiacombatsystem/character/attack_component.tscn" id="8_rf03t"]
+[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wuxiacombatsystem/character/components/attack_component.tscn" id="8_rf03t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dc0pm"]
 radius = 0.10546875
