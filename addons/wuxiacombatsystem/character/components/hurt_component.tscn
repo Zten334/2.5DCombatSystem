@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://b7weopfcdmry8"]
 
+[ext_resource type="Script" uid="uid://d4daa6s2qlnpt" path="res://addons/wuxiacombatsystem/scripts/combat/hurt_component.gd" id="1_42je3"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dc0pm"]
 
 [node name="HurtComponent" type="CollisionShape3D" unique_id=1713667882]
 shape = SubResource("CapsuleShape3D_dc0pm")
+script = ExtResource("1_42je3")

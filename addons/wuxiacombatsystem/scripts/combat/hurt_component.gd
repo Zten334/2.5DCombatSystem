@@ -1,10 +1,12 @@
 extends CollisionShape3D
 
-enum HurtType{
-	STUN,
-	LAUNCH,
-}
 
+
+#执行受伤逻辑
+#1:晕眩
+#2:击飞
+func excute_hurt(hurt_type) -> void:
+	pass
 
 func set_shape_scale(scale : Vector3) -> void:
 	pass

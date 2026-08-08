@@ -1,7 +1,15 @@
 extends Area3D
 
+enum AttackType{
+	NORMAL = 0,
+	KNOCKUP = 1,
+}
+
 #攻击数据的基础信息
 class AbilityInfo:
+	
+	var attack_type : int
+	#0:一般攻击,1:击飞
 	
 	var total_duration : float #总持续时长
 	
@@ -9,7 +17,10 @@ class AbilityInfo:
 	var running_time : float
 	
 	var hit_check_points : Array[float] #攻击检测点
-
+	var hit_attack_types : Array[AttackType] #每个攻击的类型
+	
+	var hit_points_len : int
+	
 #region HITCHECK_BOX 攻击检测盒
 @export var init_scale : Vector3  #测试用的初始碰撞盒scale
 
@@ -40,6 +51,11 @@ func init_ability_info(resource) -> void:
 	ability_info.total_duration = 0.8
 	ability_info.front_time = 0.1
 	ability_info.running_time = 0.6
+	ability_info.hit_check_points.append(0.3)
+	ability_info.hit_check_points.append(0.5)
+	ability_info.hit_attack_types.append(AttackType.NORMAL)
+	ability_info.hit_attack_types.append(AttackType.KNOCKUP)
+	
 	#加入到数组中
 	normal_attack_info.append(ability_info)
 	
@@ -75,11 +91,11 @@ func excute_attack(index : int)-> AbilityInfo:
 			return null
 
 #检测攻击碰撞
-func check_hit() -> void:
+func check_hit(ability_index : int,hit_check_point:int) -> void:
 	var hits = get_overlapping_bodies()
 	for hit in hits:
 		if hit.has_method("hurt"):
-			hit.hurt()
+			hit.hurt(normal_attack_info[normal_attack_index].hit_attack_types[hit_check_point])
 
 
 #endregion

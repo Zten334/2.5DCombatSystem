@@ -76,14 +76,14 @@ var crit_rate    #当前暴击率
 @onready var attack_component = $AttackComponent
 @onready var combat_resource_component = $CombatResourceComponent
 
-#region /ATTACK
-enum AttackPhase{ #前摇、攻击中、后摇、结束
-	FRONT,
-	RUNNING,
-	REST,
-	NONE
-}
+#region /ATTACK_SM 攻击状态机
 
+enum AttackPhase{ #前摇、攻击中、后摇、结束
+	FRONT = 0,
+	RUNNING = 1,
+	REST = 2,
+	NONE = 3
+}
 
 var current_phase : AttackPhase = AttackPhase.NONE #当前的攻击阶段
 
@@ -92,9 +92,11 @@ var attack_duration : float #攻击的持续时间
 var front_time : float #前摇、运行的结束时间
 var running_time : float
 
+var hit_points_len : int
 var hit_check_points : Array[float] #触发碰撞检测的时间节点
-var current_point : int #当前要检测的时间点的索引
+var hit_attack_types : Array[int] #触发碰撞检测时的攻击类型
 
+var current_point : int #当前要检测的时间点的索引
 
 var attacking_timer : float #攻击计时器，用以分隔不同的攻击阶段
 
@@ -125,9 +127,14 @@ func _attack_progress(delta:float) -> void:
 	#这里，因为设定的时候，时间轴是正向的，而倒计时是反向的，所以需要从后
 	#往前进行判断
 		#current_point不能为0，否则会越界
-		if current_point >= 0 and attacking_timer <= (attack_duration - hit_check_points[current_point]):
+		if current_point < hit_points_len and attacking_timer <= (attack_duration - hit_check_points[current_point]):
+			_excute_hit_check(current_point)  #进行一次碰撞判断
+			
 			current_point -= 1 #先移动当前current_point
-			_excute_hit_check()  #进行一次碰撞判断 
+			
+			 
+
+#region //ATTACK_EXCUTE 具体的攻击效果处理
 
 #轻攻击（暂定），需要去招式资源组件中读取，然后根据index进行选择
 func light_attack() -> void:
@@ -143,7 +150,8 @@ func light_attack() -> void:
 	
 	#启动timer
 	attacking_timer = attack_duration
-	current_point = len(hit_check_points) - 1
+	current_point = 0
+	
 	#将当前攻击阶段设为FONT
 	#current_phase = AttackPhase.FRONT
 	#播放动画
@@ -151,10 +159,53 @@ func light_attack() -> void:
 
 #endregion
 
+#region //TOOLFUNC
+#读取ability中的数据
+func _copy_ability_data(ability_index : int) -> void:
+	#从攻击组件中获取，更加合理
+	var ability = attack_component.excute_attack(ability_index)
+	#var ability : CombatAbility = combat_resource_component.get_ability(index)
+	
+	attack_duration = ability.total_duration
+	front_time = ability.total_duration - ability.front_time
+	running_time = ability.total_duration - ability.running_time
+	
+	hit_check_points = ability.hit_check_points
+	hit_attack_types = ability.hit_attack_types
+	
+	hit_points_len = ability.hit_points_len
+	
+	print(attack_duration)
+	print(ability.front_time)
+	print(hit_check_points)
+	
+#进行攻击检测，交由attack_component处理
+func _excute_hit_check(hit_check_point:int) -> void:
+	if not attack_component:
+		return
+	attack_component.check_hit(hit_check_point)
+
+#endregion
+
+#endregion
+
+
+
 #region /HURT
 
+enum HurtType{
+	STUN = 1,
+	LAUNCH = 2,
+	PO = 3,
+}
+
+#测试用，受击时不同状态下的持续时长
+@export var hurt_dir : Dictionary[HurtType,float]
+
+var current_hurt_type : HurtType
+
 var hurt_timer : float #受击计时器
-var hurt_duration : float #受击持续时间
+var hurt_duration : float #受击持续时间,可能多余了
 
 func _hurt_progress(delta:float) -> void:
 	#每帧倒计时
@@ -164,37 +215,32 @@ func _hurt_progress(delta:float) -> void:
 		hurt_timer = 0
 	else:
 		pass
+		
+	#根据当前不同的受伤类型，执行操作
+	match current_hurt_type:    
+		HurtType.STUN:
+			print('i am stun!')
+		HurtType.LAUNCH:
+			print('i am launch!')
+		HurtType.PO:
+			print('i am po!')
+		_:
+			pass
+	
+#匹配攻击类型,暂时用枚举
+#与hurt_type是一一对应的
+func hurt(attack_type) -> void:
+	
+	current_hurt_type = attack_type
+	hurt_duration = hurt_dir[attack_type]
+	hurt_timer = hurt_duration
+	
 
-func hurt() -> void:
 	
-	print(name," is hurt!")
-
-#endregion
-
-#region /TOOLFUNC
-#读取ability中的数据
-func _copy_ability_data(index : int) -> void:
-	#从攻击组件中获取，更加合理
-	var ability = attack_component.excute_attack(index)
-	#var ability : CombatAbility = combat_resource_component.get_ability(index)
-	
-	attack_duration = ability.total_duration
-	front_time = ability.total_duration - ability.front_time
-	running_time = ability.total_duration - ability.running_time
-	
-	hit_check_points = ability.hit_check_points
-	
-	print(attack_duration)
-	print(ability.front_time)
-	print(hit_check_points)
-	
-	
-func _excute_hit_check() -> void:
-	if not attack_component:
-		return
-	attack_component.check_hit()
 
 #endregion
+
+
 #endregion
 
 #region RESOURCE 资源
@@ -236,6 +282,7 @@ func _process(delta: float) -> void:
 	_update_sprite_forwad()
 	#combat
 	_attack_progress(delta)
+	_hurt_progress(delta) 
 	
 
 func _physics_process(delta: float) -> void:
