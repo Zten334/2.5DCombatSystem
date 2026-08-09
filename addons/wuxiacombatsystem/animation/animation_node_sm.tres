@@ -53,4 +53,4 @@ states/charactercombatsystem_Idle/position = Vector2(339.21875, 44.789063)
 states/charactercombatsystem_Run/node = SubResource("AnimationNodeAnimation_2vl15")
 states/charactercombatsystem_Run/position = Vector2(338.3125, 149)
 transitions = ["Start", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "charactercombatsystem_Idle", "charactercombatsystem_Run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "charactercombatsystem_Run", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_rf03t")]
-graph_offset = Vector2(-117.54138, -109.622116)
+graph_offset = Vector2(-117.54138, 54.574116)
