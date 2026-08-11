@@ -73,8 +73,54 @@ var crit_rate    #当前暴击率
 #endregion
 
 #region COMBAT 战斗系统
-@onready var attack_component = $AttackComponent
+@onready var hit_check_component = $HitCheckComponent
 @onready var combat_resource_component = $CombatResourceComponent
+
+@onready var ability_component = $AbilityComponent
+
+#region /ATTACK_INFO 战斗招式等相关信息
+enum AttackType{
+	NORMAL = 0,
+	KNOCKUP = 1,
+}
+
+#攻击数据的基础信息
+class AbilityInfo:
+	
+	var attack_type : int
+	#0:一般攻击,1:击飞
+	var total_duration : float #总持续时长
+	
+	var front_time : float #前摇结束的时间点，running结束的时间点
+	var running_time : float
+	
+	var hit_check_points : Array[float] #攻击检测点
+	var hit_attack_types : Array[AttackType] #每个攻击的类型
+	
+	var hit_points_len : int
+
+
+var attack_info : Array[AbilityInfo] #普通攻击的所有派生数组
+
+var attack_index : int #普通攻击当前的派生顺序
+
+
+func init_ability_info() -> void:
+	#初始化一个ability_info
+	var ability_info = AbilityInfo.new()
+	ability_info.total_duration = 0.8
+	ability_info.front_time = 0.1
+	ability_info.running_time = 0.6
+	ability_info.hit_check_points.append(0.3)
+	ability_info.hit_check_points.append(0.5)
+	ability_info.hit_attack_types.append(AttackType.NORMAL)
+	ability_info.hit_attack_types.append(AttackType.KNOCKUP)
+	
+	#加入到数组中
+	attack_info.append(ability_info)
+	
+	
+#endregion
 
 #region /ATTACK_SM 攻击状态机
 
@@ -87,50 +133,22 @@ enum AttackPhase{ #前摇、攻击中、后摇、结束
 
 var current_phase : AttackPhase = AttackPhase.NONE #当前的攻击阶段
 
-var attack_duration : float #攻击的持续时间
-
-var front_time : float #前摇、运行的结束时间
-var running_time : float
-
-var hit_points_len : int
-var hit_check_points : Array[float] #触发碰撞检测的时间节点
-var hit_attack_types : Array[int] #触发碰撞检测时的攻击类型
-
-var current_point : int #当前要检测的时间点的索引
-
-var attacking_timer : float #攻击计时器，用以分隔不同的攻击阶段
-
 var attacking_speed   #测试，攻击速度修正
+
+
+func _init_ability_timer() -> void:
+	if not ability_component:
+		return
+	
+	ability_component.hit_check.connect(_excute_hit_check)
 
 #运行攻击计时器的规则
 func _attack_progress(delta:float) -> void:
-	#print(current_phase)
-	#每帧倒计时
-	attacking_timer -= delta
-	#如果计时器小于0，说明当前阶段已经是结束阶段了
-	if attacking_timer <= 0:
-		current_phase = AttackPhase.NONE
-		attacking_timer = 0
-	else:
-		#如果时间大于fronttime，也就是开始攻击但没没过front节点，就把状态设置为FRONT
-		if attacking_timer > front_time and (current_phase == AttackPhase.NONE or current_phase == AttackPhase.REST):
-			current_phase = AttackPhase.FRONT
-		#如果时间已经过了front的节点且状态是front，就变为running
-		if attacking_timer <= front_time and current_phase == AttackPhase.FRONT:
-			current_phase = AttackPhase.RUNNING
-		#同理变为rest
-		if attacking_timer <= running_time and current_phase == AttackPhase.RUNNING:
-			current_phase = AttackPhase.REST
-	
-	#判断是否到达了攻击判断触发点
-	if current_phase == AttackPhase.RUNNING:
-	#这里，因为设定的时候，时间轴是正向的，而倒计时是反向的，所以需要从后
-	#往前进行判断
-		#current_point不能为0，否则会越界
-		if current_point < hit_points_len and attacking_timer <= (attack_duration - hit_check_points[current_point]):
-			_excute_hit_check(current_point)  #进行一次碰撞判断
-			
-			current_point -= 1 #先移动当前current_point
+	if not ability_component:
+		return
+	#将攻击阶段与component同步
+	current_phase = ability_component.current_phase
+
 			
 			 
 
@@ -139,18 +157,18 @@ func _attack_progress(delta:float) -> void:
 #轻攻击（暂定），需要去招式资源组件中读取，然后根据index进行选择
 func light_attack() -> void:
 	#首先我得知道有哪些招式，然后再选择使用哪个
-	if not attack_component:
+	if not hit_check_component or not ability_component:
 		print('You Have No AttackComponent Yet!')
 		return
 	#如果当前正在攻击阶段，则跳过
 	if current_phase == AttackPhase.RUNNING:
 		return
 	
-	_copy_ability_data(0)
+	_copy_ability_data()
 	
-	#启动timer
-	attacking_timer = attack_duration
-	current_point = 0
+	#启动timer,后放入ability_component中
+	ability_component.attacking_timer = ability_component.attack_duration
+	ability_component.current_point = 0
 	
 	#将当前攻击阶段设为FONT
 	#current_phase = AttackPhase.FRONT
@@ -161,29 +179,30 @@ func light_attack() -> void:
 
 #region //TOOLFUNC
 #读取ability中的数据
-func _copy_ability_data(ability_index : int) -> void:
+func _copy_ability_data() -> void:
 	#从攻击组件中获取，更加合理
-	var ability = attack_component.excute_attack(ability_index)
+	var ability : AbilityInfo = attack_info[attack_index]
 	#var ability : CombatAbility = combat_resource_component.get_ability(index)
 	
-	attack_duration = ability.total_duration
-	front_time = ability.total_duration - ability.front_time
-	running_time = ability.total_duration - ability.running_time
+	ability_component.attack_duration = ability.total_duration
+	ability_component.front_time = ability.total_duration - ability.front_time
+	ability_component.running_time = ability.total_duration - ability.running_time
 	
-	hit_check_points = ability.hit_check_points
-	hit_attack_types = ability.hit_attack_types
+	ability_component.hit_check_points = ability.hit_check_points
 	
-	hit_points_len = ability.hit_points_len
+	ability_component.hit_points_len = ability.hit_points_len
 	
-	print(attack_duration)
+	print(ability_component.attack_duration)
 	print(ability.front_time)
-	print(hit_check_points)
+	print(ability_component.hit_check_points)
 	
 #进行攻击检测，交由attack_component处理
 func _excute_hit_check(hit_check_point:int) -> void:
-	if not attack_component:
+	if not hit_check_component:
 		return
-	attack_component.check_hit(hit_check_point)
+	#暂时用
+	#把当前攻击检测点的攻击类型传入
+	hit_check_component.check_hit(attack_info[attack_index].hit_attack_types[hit_check_point])
 
 #endregion
 
@@ -274,6 +293,10 @@ func _play_montage(name) -> void:
 #endregion
 
 #region CLASK_FUNC 自带的钩子函数
+func _ready() -> void:
+	init_ability_info()
+	_init_ability_timer()
+
 func _process(delta: float) -> void:
 	#physics 检查重力和摩擦力
 	_check_gravity(delta)
