@@ -7,8 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bwg5xwjcyhdht" path="res://addons/wuxiacombatsystem/abilities/combat_resource_component.tscn" id="5_7w2pl"]
 [ext_resource type="Script" uid="uid://cm8gb2t4ccw5v" path="res://addons/wuxiacombatsystem/abilities/source/ability.gd" id="6_3667e"]
 [ext_resource type="Resource" uid="uid://bjptq7p3015f0" path="res://addons/wuxiacombatsystem/abilities/resources/light_attack1.tres" id="7_qmc33"]
-[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wuxiacombatsystem/character/components/hit_check_component.tscn" id="8_rf03t"]
-[ext_resource type="Script" uid="uid://5qaopcwpydtn" path="res://addons/wuxiacombatsystem/scripts/combat/ability_component.gd" id="9_8u4o5"]
+[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wuxiacombatsystem/character/components/attack_component.tscn" id="8_rf03t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dc0pm"]
 radius = 0.10546875
@@ -40,6 +39,9 @@ _data = {
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=440418979]
 script = ExtResource("1_xdgib")
 
+[node name="CombatResourceComponent" parent="." unique_id=1692130395 instance=ExtResource("5_7w2pl")]
+current_abilities = Array[ExtResource("6_3667e")]([ExtResource("7_qmc33")])
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=721659085]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18760407, 0)
 shape = SubResource("CapsuleShape3D_dc0pm")
@@ -67,12 +69,6 @@ script = ExtResource("3_xua1b")
 libraries/ = SubResource("AnimationLibrary_rf03t")
 libraries/charactercombatsystem = ExtResource("4_2vl15")
 
-[node name="CombatResourceComponent" parent="." unique_id=1692130395 instance=ExtResource("5_7w2pl")]
-current_abilities = Array[ExtResource("6_3667e")]([ExtResource("7_qmc33")])
-
-[node name="HitCheckComponent" parent="." unique_id=1002204844 instance=ExtResource("8_rf03t")]
+[node name="AttackComponent" parent="." unique_id=1002204844 instance=ExtResource("8_rf03t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44575503, 0.14108983, 0)
 init_scale = Vector3(0.4, 0.34, 0.73)
-
-[node name="AbilityComponent" type="Node" parent="." unique_id=1077551103]
-script = ExtResource("9_8u4o5")
