@@ -1,7 +1,10 @@
-[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://dm6is2jespcqd"]
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://cn6jnn6n27p6l"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1pgs"]
 animation = &"charactercombatsystem/test_attack_03"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5ngle"]
+animation = &"charactercombatsystem/Hurt"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g4yc7"]
 animation = &"charactercombatsystem/test_attack_02"
@@ -24,21 +27,27 @@ input_2/name = "Light_Attack_03"
 input_2/auto_advance = false
 input_2/break_loop_at_end = false
 input_2/reset = true
+input_3/name = "Hurt"
+input_3/auto_advance = false
+input_3/break_loop_at_end = false
+input_3/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rf03t"]
-graph_offset = Vector2(-490.93152, -17.708344)
+graph_offset = Vector2(-466.35883, -64.64032)
 nodes/output/position = Vector2(310, 150)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_qmc33")
-nodes/TimeScale/position = Vector2(-70, -40)
+nodes/TimeScale/position = Vector2(-80, -290)
 nodes/Light_Attack/node = SubResource("AnimationNodeAnimation_3667e")
-nodes/Light_Attack/position = Vector2(-430, -30)
+nodes/Light_Attack/position = Vector2(-440, -280)
 nodes/Transition/node = SubResource("AnimationNodeTransition_7w2pl")
 nodes/Transition/position = Vector2(100, 80)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_g4yc7")
-nodes/Animation/position = Vector2(-420, 140)
+nodes/Animation/position = Vector2(-430, -110)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_e1pgs")
-"nodes/Animation 2/position" = Vector2(-410, 310)
-node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale", &"Transition", 1, &"Animation", &"Transition", 2, &"Animation 2"]
+"nodes/Animation 2/position" = Vector2(-420, 60)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_5ngle")
+"nodes/Animation 3/position" = Vector2(-440, 230)
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale", &"Transition", 1, &"Animation", &"Transition", 2, &"Animation 2", &"Transition", 3, &"Animation 3"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7w2pl"]
 animation = &"charactercombatsystem/test_idle"
@@ -71,4 +80,4 @@ states/charactercombatsystem_Idle/position = Vector2(339.21875, 44.789063)
 states/charactercombatsystem_Run/node = SubResource("AnimationNodeAnimation_2vl15")
 states/charactercombatsystem_Run/position = Vector2(338.3125, 149)
 transitions = ["Start", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "charactercombatsystem_Idle", "charactercombatsystem_Run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "charactercombatsystem_Run", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "charactercombatsystem_Idle", SubResource("AnimationNodeStateMachineTransition_rf03t")]
-graph_offset = Vector2(-13.541382, -178.42589)
+graph_offset = Vector2(-18.541382, -65.42589)

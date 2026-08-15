@@ -1,4 +1,4 @@
-extends Camera3D
+extends Node3D
 
 @export var owning_character : CharacterBody3D
 
@@ -10,6 +10,8 @@ extends Camera3D
 
 @export var jump : StringName
 
+@export_category("Combat")
+@export var attack : StringName
 
 func _ready() -> void:
 	pass
@@ -28,7 +30,7 @@ func _handling_moving_input(delta:float) -> void:
 	if owning_character.has_method("accelerate") and input != Vector2.ZERO:
 		owning_character.accelerate(input,delta)
 	
-	if Input.is_action_just_pressed("attack") and owning_character.has_method("light_attack"):
+	if Input.is_action_just_pressed(attack) and owning_character.has_method("light_attack"):
 		owning_character.light_attack()
 
 #endregion

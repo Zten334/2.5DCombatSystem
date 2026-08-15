@@ -44,6 +44,7 @@ func set_attack_info(attack_info) -> void:
 	print(attack_duration)
 	print(front_time)
 	print(hit_check_points)
+	print(hit_points_len)
 
 #endregion
 
@@ -107,7 +108,7 @@ func _attack_timer(delta:float) -> void:
 			
 			hit_check.emit(current_point) #发出攻击碰撞检测的信号
 			
-			current_point -= 1 #先移动当前current_point
+			current_point += 1 #执行后移动当前current_point
 
 #攻击开始
 func attack_start() -> void:
