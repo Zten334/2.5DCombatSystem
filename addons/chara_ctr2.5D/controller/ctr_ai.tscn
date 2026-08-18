@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://daevkk4bfbu7q"]
+
+[ext_resource type="Script" uid="uid://cc81ygf2kusrj" path="res://addons/chara_ctr2.5D/scripts/ctr_s_ai.gd" id="1_dsyy2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6x5uy"]
+size = Vector3(5.105713, 1, 3.4682617)
+
+[node name="CtrAI" type="Area3D" unique_id=85645101 node_paths=PackedStringArray("strate_label")]
+script = ExtResource("1_dsyy2")
+strate_label = NodePath("Label3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1611352980]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05895996, 0, -0.27270508)
+shape = SubResource("BoxShape3D_6x5uy")
+debug_color = Color(0.70980394, 0.4862745, 0, 0.7529412)
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1723495024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45686358, 0)
+texture_filter = 2

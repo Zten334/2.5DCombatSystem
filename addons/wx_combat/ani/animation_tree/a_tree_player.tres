@@ -1,0 +1,83 @@
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://cn6jnn6n27p6l"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e1pgs"]
+animation = &"a_lib_cb_nor/test_attack_03"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5ngle"]
+animation = &"a_lib_cb_nor/Hurt"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g4yc7"]
+animation = &"a_lib_cb_nor/test_attack_02"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3667e"]
+animation = &"a_lib_cb_nor/test_attack_01"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_qmc33"]
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_7w2pl"]
+input_0/name = "Light_Attack_01"
+input_0/auto_advance = false
+input_0/break_loop_at_end = false
+input_0/reset = true
+input_1/name = "Light_Attack_02"
+input_1/auto_advance = false
+input_1/break_loop_at_end = false
+input_1/reset = true
+input_2/name = "Light_Attack_03"
+input_2/auto_advance = false
+input_2/break_loop_at_end = false
+input_2/reset = true
+input_3/name = "Hurt"
+input_3/auto_advance = false
+input_3/break_loop_at_end = false
+input_3/reset = true
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rf03t"]
+graph_offset = Vector2(-436.1172, -212.38266)
+nodes/output/position = Vector2(310, 150)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_qmc33")
+nodes/TimeScale/position = Vector2(-80, -290)
+nodes/Light_Attack/node = SubResource("AnimationNodeAnimation_3667e")
+nodes/Light_Attack/position = Vector2(-440, -280)
+nodes/Transition/node = SubResource("AnimationNodeTransition_7w2pl")
+nodes/Transition/position = Vector2(100, 80)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_g4yc7")
+nodes/Animation/position = Vector2(-430, -110)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_e1pgs")
+"nodes/Animation 2/position" = Vector2(-420, 60)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_5ngle")
+"nodes/Animation 3/position" = Vector2(-440, 230)
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale", &"Transition", 1, &"Animation", &"Transition", 2, &"Animation 2", &"Transition", 3, &"Animation 3"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7w2pl"]
+animation = &"a_lib_cb_nor/test_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vl15"]
+animation = &"a_lib_cb_nor/test_run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3667e"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7w2pl"]
+advance_mode = 2
+advance_expression = "has_velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qmc33"]
+advance_mode = 2
+advance_expression = "!has_velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rf03t"]
+switch_mode = 2
+advance_mode = 2
+
+[resource]
+states/Ability/node = SubResource("AnimationNodeBlendTree_rf03t")
+states/Ability/position = Vector2(339.83868, -64.122116)
+states/End/position = Vector2(990, 100.055664)
+states/Start/position = Vector2(85, 101.322266)
+states/a_lib_cb_nor_test_idle/node = SubResource("AnimationNodeAnimation_7w2pl")
+states/a_lib_cb_nor_test_idle/position = Vector2(339.83215, 44.789063)
+states/a_lib_cb_nor_test_run/node = SubResource("AnimationNodeAnimation_2vl15")
+states/a_lib_cb_nor_test_run/position = Vector2(339.8256, 149)
+transitions = ["Start", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "a_lib_cb_nor_test_run", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_rf03t")]
+graph_offset = Vector2(-66.54138, -176.42589)

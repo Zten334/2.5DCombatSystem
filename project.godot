@@ -21,12 +21,11 @@ window/size/viewport_height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/charactercontroller2.5D/plugin.cfg", "res://addons/wuxiacombatsystem/plugin.cfg")
+enabled=PackedStringArray("res://addons/chara_ctr2.5D/plugin.cfg", "res://addons/wx_combat/plugin.cfg")
 
 [global_group]
 
-player_faction=""
-enemy_faction=""
+player=""
 
 [input]
 
@@ -71,10 +70,17 @@ right={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Hero"
+3d_physics/layer_2="Enemy"
+3d_physics/layer_6="Block"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=3
 rendering_device/driver.windows="d3d12"

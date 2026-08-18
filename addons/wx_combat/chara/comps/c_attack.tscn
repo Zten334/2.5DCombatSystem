@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b36y52a82kt8q"]
+
+[ext_resource type="Script" uid="uid://bwmiafj8xswx0" path="res://addons/wx_combat/script/combat/collisions/c_s_attack.gd" id="1_7ln4p"]
+[ext_resource type="Script" uid="uid://jmyrgj6y76ju" path="res://addons/wx_combat/script/collisions/dynamic_collision.gd" id="2_vod8p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dqwm1"]
+size = Vector3(0.23208618, 0.30737305, 0.55041504)
+
+[node name="AttackComponent" type="Area3D" unique_id=1002204844]
+script = ExtResource("1_7ln4p")
+init_scale = Vector3(0.23208618, 0.30737305, 0.55041504)
+
+[node name="DynamicBoxCollision" type="CollisionShape3D" parent="." unique_id=639829589]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.004)
+shape = SubResource("BoxShape3D_dqwm1")
+debug_color = Color(0.9260607, 0.002490598, 0.14430436, 0.41960785)
+script = ExtResource("2_vod8p")
+metadata/_custom_type_script = "uid://jmyrgj6y76ju"

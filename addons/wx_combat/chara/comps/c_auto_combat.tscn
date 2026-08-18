@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://nbkqwep48roq"]
+
+[ext_resource type="Script" uid="uid://bd67atad8qba1" path="res://addons/wx_combat/script/combat/c_s_auto_combat.gd" id="1_qgul5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dc0pm"]
+size = Vector3(1.7127228, 1, 2.0457764)
+
+[node name="AutoCombat" type="Area3D" unique_id=618660513]
+script = ExtResource("1_qgul5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1523886831]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.018852234, 0, 0.08746338)
+shape = SubResource("BoxShape3D_dc0pm")
+debug_color = Color(0.68235296, 0.5058824, 0, 1)
