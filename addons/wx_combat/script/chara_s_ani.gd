@@ -35,6 +35,7 @@ func play_montage(name : StringName):
 func is_right() -> bool:
 	return false
 
+var is_death : bool = false
 #endregion
 
 func _ready() -> void:

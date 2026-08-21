@@ -49,6 +49,12 @@ nodes/Animation/position = Vector2(-430, -110)
 "nodes/Animation 3/position" = Vector2(-440, 230)
 node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale", &"Transition", 1, &"Animation", &"Transition", 2, &"Animation 2", &"Transition", 3, &"Animation 3"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ledmf"]
+animation = &"a_lib_cb_nor/Lying"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_48j6r"]
+animation = &"a_lib_cb_nor/test_death"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7w2pl"]
 animation = &"a_lib_cb_nor/test_idle"
 
@@ -70,14 +76,26 @@ advance_expression = "!has_velocity"
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d5orn"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1fbl8"]
+advance_mode = 2
+advance_expression = "is_death"
+
 [resource]
 states/Ability/node = SubResource("AnimationNodeBlendTree_rf03t")
 states/Ability/position = Vector2(339.83868, -64.122116)
-states/End/position = Vector2(990, 100.055664)
+states/End/position = Vector2(1105, 114.555664)
 states/Start/position = Vector2(85, 101.322266)
+states/a_lib_cb_nor_Lying/node = SubResource("AnimationNodeAnimation_ledmf")
+states/a_lib_cb_nor_Lying/position = Vector2(851.4586, 42.022743)
+states/a_lib_cb_nor_test_death/node = SubResource("AnimationNodeAnimation_48j6r")
+states/a_lib_cb_nor_test_death/position = Vector2(627.9586, 44.15811)
 states/a_lib_cb_nor_test_idle/node = SubResource("AnimationNodeAnimation_7w2pl")
 states/a_lib_cb_nor_test_idle/position = Vector2(339.83215, 44.789063)
 states/a_lib_cb_nor_test_run/node = SubResource("AnimationNodeAnimation_2vl15")
 states/a_lib_cb_nor_test_run/position = Vector2(339.8256, 149)
-transitions = ["Start", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "a_lib_cb_nor_test_run", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_rf03t")]
-graph_offset = Vector2(-66.54138, -176.42589)
+transitions = ["Start", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "a_lib_cb_nor_test_run", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_rf03t"), "a_lib_cb_nor_test_death", "a_lib_cb_nor_Lying", SubResource("AnimationNodeStateMachineTransition_d5orn"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_death", SubResource("AnimationNodeStateMachineTransition_1fbl8")]
+graph_offset = Vector2(-116.54138, -56.425888)

@@ -18,8 +18,8 @@ func move_to_nearest(delta) -> bool:
 		
 	var forward = Vector2(distan_x,distan_z)
 	#如果角色有加速函数，就进行加速
-	if owning_chara.has_method("accelerate"):
-		owning_chara.accelerate(forward,delta)
+	if owning_chara.has_method("accel_prcs"):
+		owning_chara.accel_prcs(forward,delta)
 	#如果forward为0，说明已经到达
 	return forward == Vector2.ZERO
 #endregion
@@ -143,7 +143,6 @@ func _ready() -> void:
 	if not owning_chara:
 		return
 	if owning_chara.has_signal(&'body_enter_attarea'):
-		#print("body_enter_area signal has found!")
 		owning_chara.body_enter_attarea.connect(_attack)
 	
 func _process(delta: float) -> void:

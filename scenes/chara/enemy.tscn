@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://d0sacgivyo8t6"]
+
+[ext_resource type="Script" uid="uid://cbxv0m2bvptag" path="res://scripts/chara/chara_s_base.gd" id="1_2hpc6"]
+[ext_resource type="PackedScene" uid="uid://b7weopfcdmry8" path="res://addons/wx_combat/comps/c_hurt.tscn" id="2_jq2qj"]
+[ext_resource type="PackedScene" uid="uid://dtwmy1o0rienr" path="res://addons/wxstats/scene/c_stats.tscn" id="2_wbadl"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cn6jnn6n27p6l" path="res://addons/wx_combat/ani/animation_tree/a_tree_player.tres" id="3_wbadl"]
+[ext_resource type="Script" uid="uid://buem4ufrrd7ol" path="res://addons/wx_combat/script/chara_s_ani.gd" id="4_32qm2"]
+[ext_resource type="AnimationLibrary" uid="uid://bruoof7j80e7" path="res://addons/wx_combat/ani/a_lib_cb_nor.res" id="5_inurm"]
+[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wx_combat/comps/c_attack.tscn" id="6_bm1em"]
+[ext_resource type="SpriteFrames" uid="uid://dh4i5nyomtpww" path="res://addons/wx_combat/ani/a_sprfs_enemy.tres" id="7_7ga6w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wbadl"]
+radius = 0.115234375
+height = 0.35705566
+
+[node name="Enemy" type="CharacterBody3D" unique_id=440418979 node_paths=PackedStringArray("attack_comp", "hurt_comp")]
+script = ExtResource("1_2hpc6")
+attack_comp = NodePath("AttackComponent")
+hurt_comp = NodePath("HurtComponent")
+
+[node name="HurtComponent" parent="." unique_id=1713667882 instance=ExtResource("2_jq2qj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19012451, 0)
+shape = SubResource("CapsuleShape3D_wbadl")
+
+[node name="AttackComponent" parent="." unique_id=1002204844 instance=ExtResource("6_bm1em")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19177583, 0.14108983, 0)
+init_scale = Vector3(0.4, 0.34, 0.73)
+
+[node name="CStats" parent="." unique_id=299550708 instance=ExtResource("2_wbadl")]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=918220104]
+tree_root = ExtResource("3_wbadl")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Ability/TimeScale/scale = 1.0
+parameters/Ability/Transition/current_state = "Hurt"
+parameters/Ability/Transition/transition_request = ""
+parameters/Ability/Transition/current_index = 3
+script = ExtResource("4_32qm2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1261899896]
+libraries/a_lib_cb_nor = ExtResource("5_inurm")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1349857948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35002732, 0)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = ExtResource("7_7ga6w")
+animation = &"Idle"
+frame = 4

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dtwmy1o0rienr"]
+
+[ext_resource type="Script" uid="uid://cslpluev7io1o" path="res://addons/wxstats/script/c_s_combat_stats.gd" id="1_aomjr"]
+
+[node name="CStats" type="Node" unique_id=299550708]
+script = ExtResource("1_aomjr")

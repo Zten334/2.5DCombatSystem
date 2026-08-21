@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://ctg0ycuw2g6f1"]
+
+[ext_resource type="Script" uid="uid://cbxv0m2bvptag" path="res://scripts/chara/chara_s_base.gd" id="1_lv1em"]
+[ext_resource type="PackedScene" uid="uid://dtwmy1o0rienr" path="res://addons/wxstats/scene/c_stats.tscn" id="2_lv1em"]
+[ext_resource type="PackedScene" uid="uid://b7weopfcdmry8" path="res://addons/wx_combat/comps/c_hurt.tscn" id="3_gheis"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cn6jnn6n27p6l" path="res://addons/wx_combat/ani/animation_tree/a_tree_player.tres" id="4_w8fce"]
+[ext_resource type="Script" uid="uid://buem4ufrrd7ol" path="res://addons/wx_combat/script/chara_s_ani.gd" id="5_jsxkd"]
+[ext_resource type="AnimationLibrary" uid="uid://bruoof7j80e7" path="res://addons/wx_combat/ani/a_lib_cb_nor.res" id="6_6lqnj"]
+[ext_resource type="PackedScene" uid="uid://b36y52a82kt8q" path="res://addons/wx_combat/comps/c_attack.tscn" id="7_voxvd"]
+[ext_resource type="SpriteFrames" uid="uid://bab4pxg4vjrjf" path="res://addons/wx_combat/ani/a_sprfs_player.tres" id="8_a5j35"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ur7dj"]
+radius = 0.10107422
+height = 0.29077148
+
+[sub_resource type="Animation" id="Animation_qmc33"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite3D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite3D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rf03t"]
+_data = {
+&"RESET": SubResource("Animation_qmc33")
+}
+
+[node name="Player" type="CharacterBody3D" unique_id=440418979 node_paths=PackedStringArray("attack_comp", "hurt_comp")]
+script = ExtResource("1_lv1em")
+attack_comp = NodePath("AttackComponent")
+hurt_comp = NodePath("HurtComponent")
+
+[node name="AttackComponent" parent="." unique_id=1002204844 instance=ExtResource("7_voxvd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17380345, 0.14108983, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="HurtComponent" parent="." unique_id=1713667882 instance=ExtResource("3_gheis")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15588379, 0)
+shape = SubResource("CapsuleShape3D_ur7dj")
+
+[node name="CStats" parent="." unique_id=299550708 instance=ExtResource("2_lv1em")]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=918220104]
+tree_root = ExtResource("4_w8fce")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Ability/TimeScale/scale = 1.0
+parameters/Ability/Transition/current_state = "Light_Attack_02"
+parameters/Ability/Transition/transition_request = ""
+parameters/Ability/Transition/current_index = 1
+script = ExtResource("5_jsxkd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1261899896]
+libraries/ = SubResource("AnimationLibrary_rf03t")
+libraries/a_lib_cb_nor = ExtResource("6_6lqnj")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1349857948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35002732, 0)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = ExtResource("8_a5j35")
+animation = &"Idle"

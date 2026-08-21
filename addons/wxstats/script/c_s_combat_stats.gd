@@ -3,13 +3,17 @@ extends Node
 #region STATS
 #region /BASE_PARA
 @export_category("TempStats")
-@export var max_hp : float 
-var hp
+@export var max_hp : float = 100
+#做一个钳制
+var hp :
+	set(value):
+		hp = clamp(value,0,max_hp)
 
-@export var base_attack : float   #基础攻击
-var attack		#当前实际攻击
-@export var base_defense : float  #基础防御
-var defense		#当前防御
+@export var base_attack : float = 20  #基础攻击
+var attack    #当前实际攻击
+		
+@export var base_defense : float = 10 #基础防御
+var defense   #当前防御
 
 #简单的初始化
 func _init_stats() -> void:
@@ -21,17 +25,23 @@ func _init_stats() -> void:
 #region /STATS_INFO 数值的某些信息
 
 func _update_stats_info() -> void:
-	#hp不能小于0
-	if hp < 0:
-		hp = 0
+	pass
 
 #获取攻击伤害，数值为攻击力乘上传来的比率
-func get_attack_demage(rate:float) -> float:
+func att_dmg_get(rate:float) -> float:
 	return (attack * rate)
 
 
 
 #endregion
+
+#region /UI UI更新
+func _ui_update(delta:float) -> void:
+	pass
+
+#endregion
+#endregion
+
 
 
 #region unused_temp
