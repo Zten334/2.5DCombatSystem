@@ -26,7 +26,7 @@ func update_locomotion_data(vel) -> void:
 #region AbilityAnimation
 @onready var playback_sm :AnimationNodeStateMachinePlayback = self.get("parameters/playback")
 
-func play_montage(name : StringName):
+func play_montage(name : String):
 	if not playback_sm :
 		return
 	playback_sm.start(&"Ability")
