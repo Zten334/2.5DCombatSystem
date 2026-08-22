@@ -21,6 +21,9 @@ hurt_comp = NodePath("HurtComponent")
 [node name="HurtComponent" parent="." unique_id=1713667882 instance=ExtResource("2_jq2qj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19012451, 0)
 shape = SubResource("CapsuleShape3D_wbadl")
+hurt_dir = Dictionary[int, float]({
+0: 0.12
+})
 
 [node name="AttackComponent" parent="." unique_id=1002204844 instance=ExtResource("6_bm1em")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19177583, 0.14108983, 0)
@@ -47,4 +50,4 @@ alpha_cut = 1
 texture_filter = 2
 sprite_frames = ExtResource("7_7ga6w")
 animation = &"Idle"
-frame = 4
+frame = 9

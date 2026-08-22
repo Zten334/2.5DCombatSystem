@@ -33,7 +33,7 @@ input_3/break_loop_at_end = false
 input_3/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rf03t"]
-graph_offset = Vector2(-436.1172, -212.38266)
+graph_offset = Vector2(-381.90704, -42.11257)
 nodes/output/position = Vector2(310, 150)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_qmc33")
 nodes/TimeScale/position = Vector2(-80, -290)
@@ -46,7 +46,7 @@ nodes/Animation/position = Vector2(-430, -110)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_e1pgs")
 "nodes/Animation 2/position" = Vector2(-420, 60)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_5ngle")
-"nodes/Animation 3/position" = Vector2(-440, 230)
+"nodes/Animation 3/position" = Vector2(-410, 230)
 node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Light_Attack", &"Transition", 0, &"TimeScale", &"Transition", 1, &"Animation", &"Transition", 2, &"Animation 2", &"Transition", 3, &"Animation 3"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ledmf"]
@@ -98,4 +98,4 @@ states/a_lib_cb_nor_test_idle/position = Vector2(339.83215, 44.789063)
 states/a_lib_cb_nor_test_run/node = SubResource("AnimationNodeAnimation_2vl15")
 states/a_lib_cb_nor_test_run/position = Vector2(339.8256, 149)
 transitions = ["Start", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_3667e"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_run", SubResource("AnimationNodeStateMachineTransition_7w2pl"), "a_lib_cb_nor_test_run", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_qmc33"), "Ability", "a_lib_cb_nor_test_idle", SubResource("AnimationNodeStateMachineTransition_rf03t"), "a_lib_cb_nor_test_death", "a_lib_cb_nor_Lying", SubResource("AnimationNodeStateMachineTransition_d5orn"), "a_lib_cb_nor_test_idle", "a_lib_cb_nor_test_death", SubResource("AnimationNodeStateMachineTransition_1fbl8")]
-graph_offset = Vector2(-116.54138, -56.425888)
+graph_offset = Vector2(61.45862, -72.42589)

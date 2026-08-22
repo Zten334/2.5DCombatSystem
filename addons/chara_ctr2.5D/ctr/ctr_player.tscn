@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cpcd7xldxyvms"]
 
-[ext_resource type="Script" uid="uid://bbg8tstolrcks" path="res://addons/chara_ctr2.5D/scripts/ctr_s_player.gd" id="1_2d2po"]
+[ext_resource type="Script" uid="uid://bbg8tstolrcks" path="res://addons/chara_ctr2.5D/scr/ctr_s_player.gd" id="1_2d2po"]
 
 [node name="Controller" type="Node3D" unique_id=2002576935]
 script = ExtResource("1_2d2po")

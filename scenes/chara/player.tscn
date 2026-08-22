@@ -58,6 +58,9 @@ collision_mask = 2
 [node name="HurtComponent" parent="." unique_id=1713667882 instance=ExtResource("3_gheis")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15588379, 0)
 shape = SubResource("CapsuleShape3D_ur7dj")
+hurt_dir = Dictionary[int, float]({
+0: 0.12
+})
 
 [node name="CStats" parent="." unique_id=299550708 instance=ExtResource("2_lv1em")]
 

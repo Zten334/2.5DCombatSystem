@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d3s26vjovut5s"]
 
 [ext_resource type="PackedScene" uid="uid://d0sacgivyo8t6" path="res://scenes/chara/enemy.tscn" id="1_cr65i"]
-[ext_resource type="PackedScene" uid="uid://cpcd7xldxyvms" path="res://addons/chara_ctr2.5D/controller/ctr_player.tscn" id="1_ewyxd"]
-[ext_resource type="PackedScene" uid="uid://daevkk4bfbu7q" path="res://addons/chara_ctr2.5D/controller/ctr_ai.tscn" id="1_sal6h"]
+[ext_resource type="PackedScene" uid="uid://cpcd7xldxyvms" path="res://addons/chara_ctr2.5D/ctr/ctr_player.tscn" id="1_ewyxd"]
+[ext_resource type="PackedScene" uid="uid://daevkk4bfbu7q" path="res://addons/chara_ctr2.5D/ctr/ctr_ai.tscn" id="1_sal6h"]
 [ext_resource type="PackedScene" uid="uid://ctg0ycuw2g6f1" path="res://scenes/chara/player.tscn" id="3_sal6h"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dc0pm"]
@@ -26,10 +26,10 @@ friction_strength = 5.0
 max_speed = 3.0
 acceleration = 15.0
 
-[node name="EnemyCtrAI" parent="." unique_id=1899388279 node_paths=PackedStringArray("owning_chara") instance=ExtResource("1_sal6h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7392807, 0, 0)
+[node name="EnemyCtrAI" parent="Enemy" unique_id=1899388279 node_paths=PackedStringArray("owning_chara") instance=ExtResource("1_sal6h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021502733, 0, 0)
 collision_layer = 0
-owning_chara = NodePath("../Enemy")
+owning_chara = NodePath("..")
 
 [node name="Player" parent="." unique_id=899459910 instance=ExtResource("3_sal6h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4167252, 0, 0)

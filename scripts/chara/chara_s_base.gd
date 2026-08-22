@@ -44,11 +44,12 @@ func accel_prcs(forward,delta) -> void:
 	if cur_att_phase != AttackPhase.NONE:
 		return
 	var new_vel = forward.normalized() * max_speed
-	#var new_forward = Vector3(new_vel.x - velocity.x,0,new_vel.y - velocity.z)
-	#new_forward = new_forward.normalized()
 	#这里使用的是move_toward，匀加速运动
 	velocity.x = move_toward(velocity.x,new_vel.x,delta * acceleration)
 	velocity.z = move_toward(velocity.z,new_vel.y,delta * acceleration)
+	
+	#var new_forward = Vector3(new_vel.x - velocity.x,0,new_vel.y - velocity.z)
+	#new_forward = new_forward.normalized()
 	#velocity += new_forward * delta * acceleration
 	
 #直接设置当前角色的速度
@@ -65,13 +66,18 @@ func velocity_assign(forward,rate = 1) -> void:
 
 #记录上一帧的方向，用于判断转向
 var vel_last_frame : Vector3 = Vector3.ZERO
+var is_right : bool = true
 
 #调整Sprite的朝向
 func _sprite_forwad_update() -> void:
+	#处于受伤状态就不用再改了
 	if velocity.x == 0:
 		return
 	#看看两者是否不同
-	var is_right : bool = velocity.x > 0
+	
+	#配置是否朝向右侧
+	is_right = velocity.x > 0
+	
 	if vel_last_frame.x * velocity.x <= 0:
 		sprite3d.flip_h = not is_right
 		if attack_comp:
@@ -210,6 +216,8 @@ func _attack_progress(delta:float) -> void:
 		return
 	#将攻击阶段与component同步,即如果不是处于攻击状态，就将攻击阶段设为NONE
 	cur_att_phase = attack_comp.cur_phase
+	#攻击补偿速度
+	_atk_accl(delta)
 	
 #轻攻击（暂定），需要去招式资源组件中读取，然后根据index进行选择
 func light_attack() -> void:
@@ -229,7 +237,7 @@ signal body_enter_attarea(Node3D)
 func _hit_check_excute(attack_type:int,hits:Array) -> void:
 	for hit in hits:
 		if hit.has_method("hurt"):
-			hit.hurt(attack_type,20)
+			hit.hurt(attack_type,20,(hit.position - position))
 			#stats_component.att_dmg_get(1)
 	print(name," The Hit Point Is Trigger!")
 
@@ -237,6 +245,19 @@ func _hit_check_excute(attack_type:int,hits:Array) -> void:
 func _body_enter_attarea(body:Node3D) -> void:
 	body_enter_attarea.emit(body)
 
+func _atk_accl(delta) -> void:
+	if cur_att_phase != AttackPhase.RUNNING:
+		return
+	
+	#if is_right:
+	
+	var new_vel = (Vector3.RIGHT * max_speed 
+	if is_right else 
+	Vector3.LEFT * max_speed)
+	
+	#这里使用的是move_toward，匀加速运动，比率可变
+	velocity.x = move_toward(0,new_vel.x,delta * acceleration * 1.3)
+	velocity.z = move_toward(0,new_vel.z,delta * acceleration * 1.3)
 
 #endregion
 
@@ -251,6 +272,7 @@ const HurtType = HurtComp.HurtType
 var current_hurt_type : HurtType 
 
 var is_hurting : bool = false
+var hurt_dir : Vector3 
 
 func _hurt_progress(delta:float) -> void:
 	if not hurt_comp:
@@ -259,21 +281,39 @@ func _hurt_progress(delta:float) -> void:
 	#如果hurt_timer大于0，就说明正在受伤
 	is_hurting = hurt_comp.is_hurting
 	
+	_hurt_accl(delta)
+	
 #匹配攻击类型,暂时用枚举
 #与hurt_type是一一对应的
-func hurt(attack_type:int,damage:float) -> void:
-	if not hurt_comp:
+func hurt(attack_type:int,damage:float,dmg_dir:Vector3) -> void:
+	if is_hp_zero or not hurt_comp:
 		return
+	#记录伤害来源方向
+	hurt_dir = dmg_dir
 	
-	#播放蒙太奇
-	var anim_name = hurt_comp._hurt_start(attack_type)
-	
-	_montage_play(anim_name)
 	print(name," is hurt! the damage is ",damage)
 	
 	hp -= damage
 	
+	#如果正在攻击，就不会触发伤害计算，但是会扣血
+	if cur_att_phase != AttackPhase.NONE:
+		return
+	#播放蒙太奇
+	var anim_name = hurt_comp._hurt_start(attack_type)
+	_montage_play(anim_name)
+	
+	
+	
 
+func _hurt_accl(delta) -> void:
+	if not is_hurting:
+		return
+	
+	var new_vel = hurt_dir.normalized() * max_speed
+	print(new_vel)
+	#这里使用的是move_toward，匀加速运动，比率可变
+	velocity.x = move_toward(0,new_vel.x,delta * acceleration * 2)
+	velocity.z = move_toward(0,new_vel.z,delta * acceleration * 2)
 
 #endregion
 
@@ -289,22 +329,25 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#stats 处理数值相关的逻辑，第一优先
 	_stats_info_update()
-	
 	#animation
 	_sprite_forwad_update()
 	#ai
-	#combat
-	_attack_progress(delta)
-	_hurt_progress(delta) 
+	
 	
 
 func _physics_process(delta: float) -> void:
 	#physics 检查重力和摩擦力
 	_gravity_check(delta)
 	_friction_check(delta)
-	#animation
 	
+	
+	#combat
+	_attack_progress(delta)
+	_hurt_progress(delta) 
+	
+	#animation
 	_animator_data_update()
 	#locomotion
 	move_and_slide()
+	
 #endregion

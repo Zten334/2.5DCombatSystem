@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://daevkk4bfbu7q"]
 
-[ext_resource type="Script" uid="uid://cc81ygf2kusrj" path="res://addons/chara_ctr2.5D/scripts/ctr_s_ai.gd" id="1_dsyy2"]
+[ext_resource type="Script" uid="uid://cc81ygf2kusrj" path="res://addons/chara_ctr2.5D/scr/ctr_s_ai.gd" id="1_dsyy2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6x5uy"]
 size = Vector3(5.105713, 1, 3.4682617)
