@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d2cirloqt11uc"
+path="res://.godot/imported/列王守卫 - 19.天山山下.mp3-25818c73405cb9110d9ab6579367ee7f.mp3str"
+
+[deps]
+
+source_file="res://sound/列王守卫 - 19.天山山下.mp3"
+dest_files=["res://.godot/imported/列王守卫 - 19.天山山下.mp3-25818c73405cb9110d9ab6579367ee7f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

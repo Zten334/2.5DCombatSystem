@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dyo6oqhly3ajf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yr72p"]
+radius = 0.18242851
+
+[node name="CCombat" type="Node3D" unique_id=1474847218]
+
+[node name="HurtArea" type="Area3D" parent="." unique_id=608176361]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtArea" unique_id=1223926582]
+shape = SubResource("SphereShape3D_yr72p")

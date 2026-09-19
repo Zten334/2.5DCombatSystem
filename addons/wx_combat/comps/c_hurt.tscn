@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://b7weopfcdmry8"]
 
-[ext_resource type="Script" uid="uid://d4daa6s2qlnpt" path="res://addons/wx_combat/script/combat/c_s_hurt.gd" id="1_42je3"]
+[ext_resource type="Script" uid="uid://d4daa6s2qlnpt" path="res://addons/wx_combat/comps/c_s_hurt.gd" id="1_42je3"]
+[ext_resource type="Script" uid="uid://jmyrgj6y76ju" path="res://addons/wx_combat/scr/collisions/dynamic_collision.gd" id="2_yjmri"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dc0pm"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_yjmri"]
+size = Vector3(0.335, 0.855, 0.69)
 
-[node name="HurtComponent" type="CollisionShape3D" unique_id=1713667882]
-shape = SubResource("CapsuleShape3D_dc0pm")
+[node name="HurtComponent" type="Area3D" unique_id=956013083]
 script = ExtResource("1_42je3")
+
+[node name="DynamicBoxCollision" type="CollisionShape3D" parent="." unique_id=1889030115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_yjmri")
+script = ExtResource("2_yjmri")
+metadata/_custom_type_script = "uid://jmyrgj6y76ju"

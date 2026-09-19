@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://c4mf0jo2evrot"]
+
+[ext_resource type="SpriteFrames" uid="uid://bab4pxg4vjrjf" path="res://addons/wx_combat/ani/lib/a_sprfs_player.tres" id="1_8ab1e"]
+[ext_resource type="AnimationLibrary" uid="uid://ctxxlvbxc7h8w" path="res://addons/wx_combat/ani/ani_tree/a_lib_cb_new.res" id="1_a5mpc"]
+[ext_resource type="Script" uid="uid://dv0guqmkvq76f" path="res://scenes/test.gd" id="3_a5mpc"]
+[ext_resource type="Script" uid="uid://ci7kht0ys1yaq" path="res://core/sk_s_uilt.gd" id="4_cmpcw"]
+
+[sub_resource type="Animation" id="Animation_2seyl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:vel")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a5mpc"]
+_data = {
+&"RESET": SubResource("Animation_2seyl")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3udew"]
+radius = 0.100963496
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_a5mpc"]
+radius = 0.20310177
+
+[node name="BeginPos" type="Node3D" unique_id=2011391258]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=59901354]
+root_node = NodePath("../MovementBody")
+libraries/ = SubResource("AnimationLibrary_a5mpc")
+libraries/a_lib_cb_new = ExtResource("1_a5mpc")
+autoplay = &"a_lib_cb_new/test_attack_02"
+
+[node name="AniPre" type="Node" parent="." unique_id=204639902]
+
+[node name="MovementBody" type="CharacterBody3D" parent="." unique_id=1453183665]
+script = ExtResource("3_a5mpc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MovementBody" unique_id=407520560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.022823766, 0.11318779, 0)
+shape = SubResource("SphereShape3D_3udew")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="MovementBody" unique_id=1626377443]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40983626, 0, 0)
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="MovementBody" unique_id=1615222921]
+offset = Vector2(0, 33.975)
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = ExtResource("1_8ab1e")
+animation = &"Attack_01"
+
+[node name="TestCamera3D" type="Camera3D" parent="." unique_id=1767675014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.047383547, 0.766875)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1114948150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26082003, 0.095532805, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=573000524]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07269266, 0.040230215, 0)
+shape = SubResource("SphereShape3D_a5mpc")
+
+[node name="Node" type="Node" parent="." unique_id=1142280665]
+script = ExtResource("4_cmpcw")
+skill_name = Array[StringName]([&"test_attack_01"])

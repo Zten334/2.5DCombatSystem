@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AttackResource" format=3 uid="uid://f1jtnlluahu"]
+
+[ext_resource type="Script" uid="uid://bqliwgv1r42a0" path="res://addons/wx_combat/res/res_s_atk.gd" id="1_avtex"]
+
+[resource]
+script = ExtResource("1_avtex")
+attack_id = &"ATK03"
+total_duration = 0.4
+front_time = 0.1
+running_time = 0.3
+hit_check_points = Array[float]([0.12])
+hit_attack_types = Array[int]([0])
+hit_points_len = 1
+metadata/_custom_type_script = "uid://bqliwgv1r42a0"

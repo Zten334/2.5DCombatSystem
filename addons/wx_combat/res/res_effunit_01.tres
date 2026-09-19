@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EffectUnit" format=3 uid="uid://bw2aeghchm8m7"]
+
+[ext_resource type="Script" uid="uid://c33dm7w66slj7" path="res://addons/wx_combat/res/res_s_effunit.gd" id="1_7jsc8"]
+
+[resource]
+script = ExtResource("1_7jsc8")
+effect_id = &"EFF001"
+max_level = 3
+base_duration = 3.0
+eff_dir = Dictionary[int, float]({
+3: 0.05
+})
+metadata/_custom_type_script = "uid://c33dm7w66slj7"

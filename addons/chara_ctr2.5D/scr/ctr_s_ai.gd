@@ -150,12 +150,15 @@ func _process(delta: float) -> void:
 	
 	_ui_update()
 	
-	#切换状态
-	_strategy_switch()
+	
 
 func _physics_process(delta: float) -> void:
 	if not owning_chara:
 		return
+		
+	#切换状态
+	_strategy_switch()
+	
 	#控制角色
 	_control_progress(delta)
 	#进行感知计时，固定间隔刷新最近的敌人

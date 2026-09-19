@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://dubupafnuges0"]
+
+[ext_resource type="SpriteFrames" uid="uid://bab4pxg4vjrjf" path="res://addons/wx_combat/ani/lib/a_sprfs_player.tres" id="1_jwpew"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jwpew"]
+font_size = 124
+
+[node name="AbitConfig" type="Control" unique_id=2014035460]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1611705837]
+position = Vector2(892.99994, 426.99997)
+scale = Vector2(8.325, 8.325)
+sprite_frames = ExtResource("1_jwpew")
+animation = &"Attack_01"
+
+[node name="Panel" type="Panel" parent="." unique_id=654860254]
+layout_mode = 0
+offset_left = 2.0
+offset_right = 298.0
+offset_bottom = 1081.0
+
+[node name="Label2" type="Label" parent="Panel" unique_id=1887580032]
+layout_mode = 0
+offset_left = 616.0
+offset_top = 733.0
+offset_right = 1484.0
+offset_bottom = 903.0
+text = "单招式顺序界面"
+label_settings = SubResource("LabelSettings_jwpew")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1227961882]
+layout_mode = 0
+offset_left = -2.0
+offset_right = 289.0
+offset_bottom = 1075.0
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer" unique_id=1470538001]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "武当撩剑"
+
+[node name="Panel3" type="Panel" parent="." unique_id=2024821856]
+layout_mode = 0
+offset_left = 1621.0
+offset_top = -3.0
+offset_right = 1917.0
+offset_bottom = 1078.0
+
+[node name="Label3" type="Label" parent="Panel3" unique_id=1199298072]
+layout_mode = 0
+offset_left = -1599.0
+offset_top = 241.0
+offset_right = -731.0
+offset_bottom = 411.0
+text = "总招式配置界面"
+label_settings = SubResource("LabelSettings_jwpew")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel3" unique_id=77836441]
+layout_mode = 0
+offset_left = -2.0
+offset_right = 289.0
+offset_bottom = 1075.0
+
+[node name="Button" type="Button" parent="Panel3/VBoxContainer" unique_id=547430196]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+text = "时间轴（进度条）配置"
+autowrap_mode = 3
+
+[node name="Panel2" type="Panel" parent="." unique_id=799938841]
+layout_mode = 0
+offset_left = 465.0
+offset_top = 863.0
+offset_right = 1534.0
+offset_bottom = 1054.0
+
+[node name="Label" type="Label" parent="Panel2" unique_id=123500073]
+layout_mode = 0
+offset_left = 618.0
+offset_top = -707.0
+offset_right = 1486.0
+offset_bottom = -537.0
+text = "单招式详细配置
+时间轴驱动"
+label_settings = SubResource("LabelSettings_jwpew")
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2" unique_id=1523232230]
+layout_mode = 0
+offset_right = 1068.0
+offset_bottom = 200.0
+
+[node name="Button" type="Button" parent="Panel2/HBoxContainer" unique_id=575916197]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+text = "撩"

@@ -2,16 +2,21 @@ extends Node3D
 
 @export var owning_character : CombatChara
 
-@export_category("Inputs")
+@export_category("Loco")
 @export var up : StringName
 @export var down : StringName
 @export var left : StringName
 @export var right : StringName
 
 @export var jump : StringName
+@export var acce : StringName
 
 @export_category("Combat")
 @export var attack : StringName
+@export var dash : StringName
+@export var skill_1 : StringName
+@export var skill_2 : StringName
+
 
 func _ready() -> void:
 	_data_init()
@@ -27,12 +32,17 @@ func _moving_input_handling(delta:float) -> void:
 		return
 		
 	var input = Input.get_vector(left,right,up,down)
-	if owning_character.has_method("accel_prcs") and input != Vector2.ZERO:
+	if input != Vector2.ZERO:
 		owning_character.accel_prcs(input,delta)
 	
-	if Input.is_action_just_pressed(attack) and owning_character.has_method("light_attack"):
+	if Input.is_action_just_pressed(jump):
+		owning_character.jump_up()
+	
+	if Input.is_action_just_pressed(attack):
 		owning_character.light_attack()
-
+	
+	
+	
 #终止对角色的控制
 func _ctr_end() -> void:
 	owning_character = null

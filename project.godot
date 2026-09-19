@@ -11,8 +11,17 @@ config_version=5
 [application]
 
 config/name="2.5DCombat"
+run/main_scene="uid://d3s26vjovut5s"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://cbocgewvv05bq"
+
+[autoload]
+
+SoundManager="*uid://b1g8dobi6ysc5"
 
 [display]
 

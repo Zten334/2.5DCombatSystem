@@ -31,8 +31,6 @@ func _update_stats_info() -> void:
 func att_dmg_get(rate:float) -> float:
 	return (attack * rate)
 
-
-
 #endregion
 
 #region /UI UI更新
@@ -44,11 +42,26 @@ func _ui_update(delta:float) -> void:
 
 
 
-#region unused_temp
-var base_speed   #基础速度
-var speed		#当前速度
-var base_crit_rate  #基础暴击率
-var crit_rate    #当前暴击率
+#region BUFF buff系统
+enum EffectType{
+	STUN = 0,
+	HEAL = 1,
+	AIR = 2,
+	WEAK = 3,
+}
+
+class EffectInfo :
+	var left_time : float  #剩余时间
+	var layer : int       #层数
+
+
+var buff_dir : Dictionary[EffectType,EffectInfo]
+
+
+
+
+
+
 #endregion
 
 func _ready() -> void:
