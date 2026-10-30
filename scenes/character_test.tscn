@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://cpcd7xldxyvms" path="res://addons/chara_ctr2.5D/ctr/ctr_player.tscn" id="1_ewyxd"]
 [ext_resource type="Script" uid="uid://c47qu5rnjguy2" path="res://scenes/character_test.gd" id="1_iyjhf"]
-[ext_resource type="AudioStream" uid="uid://d2cirloqt11uc" path="res://sound/列王守卫 - 19.天山山下.mp3" id="2_iyjhf"]
 [ext_resource type="PackedScene" uid="uid://ctg0ycuw2g6f1" path="res://chara/player.tscn" id="3_sal6h"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_sal6h"]
@@ -24,10 +23,9 @@ data = PackedVector3Array(-1.1086, 1.6096, 0.5, 1.1086, 1.6096, 0.5, -1.1086, -1
 
 [node name="SpineTest" type="Node3D" unique_id=546623839]
 script = ExtResource("1_iyjhf")
-bgm = ExtResource("2_iyjhf")
 
 [node name="Player" parent="." unique_id=899459910 instance=ExtResource("3_sal6h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8786855, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8786855, 1.2070408, 0)
 faction = 1
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=42766570]

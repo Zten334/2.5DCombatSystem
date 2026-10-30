@@ -9,12 +9,13 @@ extends CharacterBody3D
 
 @export var start_pre : bool
 
+
 func _ready() -> void:
 	pass
 
 func _process(delta):
 	pass
-	
+
 
 func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():

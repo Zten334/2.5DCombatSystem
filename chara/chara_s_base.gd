@@ -102,9 +102,6 @@ func _montage_play(_name) -> void:
 
 #endregion
 
-
-
-
 #region CONTROLLER 控制器：判断是由玩家操控还是AI操控
 var is_ctring : bool #是否正在被控制
 

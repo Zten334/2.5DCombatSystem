@@ -1,0 +1,5 @@
+全局类：
+	1.soundmannager：负责管理所有的音乐和音效
+
+局部全局类：
+	1.combatmanager:负责处理战斗结算

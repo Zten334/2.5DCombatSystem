@@ -90,7 +90,7 @@ attack_info = Array[ExtResource("3_w8fce")]([ExtResource("4_jsxkd"), ExtResource
 [node name="MovementBody" type="Node" parent="." unique_id=19373025]
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="MovementBody" unique_id=1349857948]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.40983626, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010193974, 0.33098802, 0)
 shaded = true
 alpha_cut = 1
 texture_filter = 2
